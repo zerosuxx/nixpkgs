@@ -16,7 +16,7 @@ stdenv.mkDerivation rec {
         x86_64-linux = "linux-x86_64";
         x86_64-darwin = "darwin-x86_64";
         aarch64-linux = "linux-aarch64";
-        aarch64-darwin = "darwin-aarch64";
+        aarch64-darwin = "darwin-arm64";
       };
       sha256 = selectSystem {
         x86_64-linux = "sha256-XMlOV26eFzQD4jrRMB32jFWYx2Vi/v5GG3HJRtafIyw=";
