@@ -12,23 +12,17 @@ stdenv.mkDerivation rec {
     let
       selectSystem = attrs: attrs.${system} or (throw "Unsupported system: ${system}");
 
-      suffix = selectSystem {
-        x86_64-linux = "linux-x86_64";
-        x86_64-darwin = "darwin-x86_64";
-        aarch64-linux = "linux-aarch64";
-        aarch64-darwin = "darwin-arm64";
-      };
       sha256 = selectSystem {
-        x86_64-linux = "sha256-XMlOV26eFzQD4jrRMB32jFWYx2Vi/v5GG3HJRtafIyw=";
-        x86_64-darwin = "sha256-cHOoHlNr3lz8VNK7qzuAl0QT/WUtvT7JxjH3NLTY6NA=";
-        aarch64-linux = "sha256-tAEpNsT0hOwKMtI9pA1h9H8wM3eSOjP3vb4tzCP6ng4=";
-        aarch64-darwin = "sha256-RU6XeDvNTCKctKDDlSCgWPAGkDQFP+ODb7PYPvMoxD8=";
+        x86_64-linux = "sha256-CFaO/5N1WzCQnNLJspReAf+0LiVuse9uEJIvWT++n5c=";
+        x86_64-darwin = "sha256-qXkg09nutVrVt4gZ+w+nVYBKq6c9pP+I8OuYbw4ypMs=";
+        aarch64-linux = "sha256-hRfro3Xwi+Kr/hu/pFZytTEEztMdSeF2VxbAduXbjQk=";
+        aarch64-darwin = "sha256-5AJJKdiYNgpfs4Dadt1Bruv2lsQ+qcM314S26ZaZvWc=";
       };
     in
     fetchurl {
       inherit sha256;
 
-      url = "https://github.com/zerosuxx/db-adminer/releases/download/${version}/adminer-${suffix}";
+      url = "https://github.com/zerosuxx/db-adminer/releases/download/${version}/adminer-${system}";
     };
 
   dontUnpack = true;
