@@ -13,10 +13,10 @@ stdenv.mkDerivation rec {
       selectSystem = attrs: attrs.${system} or (throw "Unsupported system: ${system}");
 
       sha256 = selectSystem {
-        x86_64-linux = "sha256-CFaO/5N1WzCQnNLJspReAf+0LiVuse9uEJIvWT++n5c=";
-        x86_64-darwin = "sha256-qXkg09nutVrVt4gZ+w+nVYBKq6c9pP+I8OuYbw4ypMs=";
-        aarch64-linux = "sha256-hRfro3Xwi+Kr/hu/pFZytTEEztMdSeF2VxbAduXbjQk=";
-        aarch64-darwin = "sha256-5AJJKdiYNgpfs4Dadt1Bruv2lsQ+qcM314S26ZaZvWc=";
+        x86_64-linux = "sha256-HVSeN8vTh7vczI84tUvsmIJqW0L8ok4WCEoNWhYWZ8c=";
+        x86_64-darwin = "sha256-no8r3HGShFqfbpaJ3RM6YUFZFQPfWvETWYacG7qGl68=";
+        aarch64-linux = "sha256-X9iGQa8NO0bQnvaIyh/fZkOvRZS3toou1Mvw/BG8gdE=";
+        aarch64-darwin = "sha256-7nXdhMA2kVwUUrg4a5vMMNG88dyfUAFdu7vARlfXXLA=";
       };
     in
     fetchurl {
