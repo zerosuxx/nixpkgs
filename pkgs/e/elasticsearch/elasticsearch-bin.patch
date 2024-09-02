@@ -1,0 +1,53 @@
+diff --git a/bin/elasticsearch b/bin/elasticsearch
+index 4f48aa8..8b6be9f 100755
+--- a/bin/elasticsearch
++++ b/bin/elasticsearch
+@@ -1,4 +1,47 @@
+-#!/bin/bash
++#!/usr/bin/env bash
++
++es_working_dir="$(pwd)/elasticsearch"
++
++if [ "$ES_PATH_CONF" = "" ]; then
++    ES_PATH_CONF="${es_working_dir}/config"
++fi
++
++if [ "$ES_CONFIG_PATH_DATA" = "" ]; then
++    ES_CONFIG_PATH_DATA="${es_working_dir}/data"
++fi
++
++if [ "$ES_CONFIG_PATH_LOGS" = "" ]; then
++    ES_CONFIG_PATH_LOGS="${es_working_dir}/logs"
++fi
++
++if [ ! -d "${es_working_dir}" ]; then
++  echo "> Copying default configs to ${es_working_dir}/config."
++  cp -R "$(dirname "$0")/../config" "${es_working_dir}/config"
++
++  echo "> Fixing jvm logs path."
++  sed -i "s#=logs/#=${es_working_dir}/logs/#g" ${es_working_dir}/config/jvm.options
++
++  echo "> Creating ${es_working_dir}/data folder."
++  mkdir -p "${es_working_dir}/data"
++
++  echo "> Creating ${es_working_dir}/logs folder."
++  mkdir -p "${es_working_dir}/logs"
++fi
++
++opts=''
++for env in ${!ES_CONFIG_*}
++do
++  key="${env:10}"
++  lower_key=${key,,}
++  config_key=${lower_key//_/.}
++
++  opts+=" -E${config_key}=${!env}"
++done
++
++if [ "${opts}" != "" ]; then
++    echo "> Parsed opts:${opts}"
++    set -- ${opts} "$@"
++fi
+ 
+ CLI_NAME=server
+ CLI_LIBS=lib/tools/server-cli
