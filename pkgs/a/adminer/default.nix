@@ -1,7 +1,6 @@
 { lib
 , stdenv
 , fetchurl
-, system
 }:
 
 stdenv.mkDerivation rec {
@@ -10,6 +9,7 @@ stdenv.mkDerivation rec {
 
   src =
     let
+      system = stdenv.hostPlatform.system;
       selectSystem = attrs: attrs.${system} or (throw "Unsupported system: ${system}");
 
       sha256 = selectSystem {
@@ -20,9 +20,8 @@ stdenv.mkDerivation rec {
       };
     in
     fetchurl {
+      url = "https://github.com/zerosuxx/db-adminer/releases/download/${version}/${pname}-${system}";
       inherit sha256;
-
-      url = "https://github.com/zerosuxx/db-adminer/releases/download/${version}/adminer-${system}";
     };
 
   dontUnpack = true;
