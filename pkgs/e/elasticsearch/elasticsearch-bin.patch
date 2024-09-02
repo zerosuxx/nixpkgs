@@ -1,5 +1,5 @@
 diff --git a/bin/elasticsearch b/bin/elasticsearch
-index 4f48aa8..63e7b88 100755
+index 4f48aa8..c29a9f7 100755
 --- a/bin/elasticsearch
 +++ b/bin/elasticsearch
 @@ -1,4 +1,50 @@
@@ -21,8 +21,8 @@ index 4f48aa8..63e7b88 100755
 +fi
 +
 +if [ ! -d "${ES_WORKING_DIR}" ]; then
-+  echo "> Creating ${ES_WORKING_DIR} folder."
-+  mkdir -p "${ES_WORKING_DIR}"
++  echo "> Creating ${ES_WORKING_DIR}/config folder."
++  mkdir -m 755 -p "${ES_WORKING_DIR}/config"
 +
 +  echo "> Copying default configs to ${ES_WORKING_DIR}/config."
 +  cp -R "$(dirname "$0")/../config" "${ES_WORKING_DIR}/config"
@@ -31,10 +31,10 @@ index 4f48aa8..63e7b88 100755
 +  sed -i "s#=logs/#=${ES_WORKING_DIR}/logs/#g" ${ES_WORKING_DIR}/config/jvm.options
 +
 +  echo "> Creating ${ES_WORKING_DIR}/data folder."
-+  mkdir -p "${ES_WORKING_DIR}/data"
++  mkdir -m 755 -p "${ES_WORKING_DIR}/data"
 +
 +  echo "> Creating ${ES_WORKING_DIR}/logs folder."
-+  mkdir -p "${ES_WORKING_DIR}/logs"
++  mkdir -m 755 -p "${ES_WORKING_DIR}/logs"
 +fi
 +
 +opts=''
