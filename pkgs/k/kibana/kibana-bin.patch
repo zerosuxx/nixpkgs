@@ -1,5 +1,5 @@
 diff --git a/bin/kibana b/bin/kibana
-index ef44513..5f17d77 100755
+index ef44513..225b316 100755
 --- a/bin/kibana
 +++ b/bin/kibana
 @@ -1,4 +1,468 @@
@@ -376,7 +376,6 @@ index ef44513..5f17d77 100755
 +    xpack.reporting.roles.allow
 +    xpack.reporting.roles.enabled
 +    xpack.ruleRegistry.write.enabled
-+    xpack.screenshotting.browser.chromium.disableSandbox
 +    xpack.security.accessAgreement.message
 +    xpack.security.audit.appender.fileName
 +    xpack.security.audit.appender.layout.highlight
@@ -423,6 +422,7 @@ index ef44513..5f17d77 100755
 +    xpack.securitySolution.maxTimelineImportPayloadBytes
 +    xpack.securitySolution.packagerTaskInterval
 +    xpack.securitySolution.prebuiltRulesPackageVersion
++    xpack.screenshotting.enabled
 +    xpack.screenshotting.networkPolicy.enabled
 +    xpack.screenshotting.networkPolicy.rules
 +    xpack.screenshotting.browser.autoDownload
