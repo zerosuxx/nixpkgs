@@ -1,8 +1,8 @@
 diff --git a/bin/kibana b/bin/kibana
-index ef44513..1f7acd4 100755
+index ef44513..5f17d77 100755
 --- a/bin/kibana
 +++ b/bin/kibana
-@@ -1,4 +1,460 @@
+@@ -1,4 +1,468 @@
 -#!/bin/sh
 +#!/usr/bin/env bash
 +
@@ -423,6 +423,14 @@ index ef44513..1f7acd4 100755
 +    xpack.securitySolution.maxTimelineImportPayloadBytes
 +    xpack.securitySolution.packagerTaskInterval
 +    xpack.securitySolution.prebuiltRulesPackageVersion
++    xpack.screenshotting.networkPolicy.enabled
++    xpack.screenshotting.networkPolicy.rules
++    xpack.screenshotting.browser.autoDownload
++    xpack.screenshotting.browser.chromium.inspect
++    xpack.screenshotting.browser.chromium.disableSandbox
++    xpack.screenshotting.browser.chromium.proxy.enabled
++    xpack.screenshotting.browser.chromium.proxy.server
++    xpack.screenshotting.browser.chromium.proxy.bypass
 +    xpack.spaces.maxSpaces
 +    xpack.task_manager.claim_strategy
 +    xpack.task_manager.max_attempts
@@ -464,7 +472,7 @@ index ef44513..1f7acd4 100755
  SCRIPT=$0
  
  # SCRIPT may be an arbitrarily deep series of symlinks. Loop until we have the concrete path.
-@@ -35,4 +491,4 @@ test_node
+@@ -35,4 +499,4 @@ test_node
  # For now only on POSIX platforms, term signals work differently on Windows.
  NODE_OPTIONS_HEAPSNAPSHOT_DEFAULT="${NODE_OPTIONS_HEAPSNAPSHOT_DEFAULT:---heapsnapshot-signal=SIGUSR2 --diagnostic-dir=$DIR/data}"
  
