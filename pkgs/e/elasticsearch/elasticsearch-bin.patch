@@ -1,34 +1,34 @@
 diff --git a/bin/elasticsearch b/bin/elasticsearch
-index 4f48aa8..afa0e89 100755
+index 4f48aa8..6b04558 100755
 --- a/bin/elasticsearch
 +++ b/bin/elasticsearch
 @@ -1,4 +1,51 @@
 -#!/bin/bash
 +#!/usr/bin/env bash
 +
-+: "${ES_CONFIG_WORKING_DIR:="$(pwd)/elasticsearch"}"
++: "${ES_WORKING_DIR:="$(pwd)/elasticsearch"}"
 +
 +if [ "$ES_PATH_CONF" = "" ]; then
-+    ES_PATH_CONF="${ES_CONFIG_WORKING_DIR}/config"
++    ES_PATH_CONF="${ES_WORKING_DIR}/config"
 +fi
 +
 +if [ "$ES_CONFIG_PATH_DATA" = "" ]; then
-+    ES_CONFIG_PATH_DATA="${ES_CONFIG_WORKING_DIR}/data"
++    ES_CONFIG_PATH_DATA="${ES_WORKING_DIR}/data"
 +fi
 +
 +if [ "$ES_CONFIG_PATH_LOGS" = "" ]; then
-+    ES_CONFIG_PATH_LOGS="${ES_CONFIG_WORKING_DIR}/logs"
++    ES_CONFIG_PATH_LOGS="${ES_WORKING_DIR}/logs"
 +fi
 +
-+if [ ! -d "$ES_CONFIG_WORKING_DIR" ]; then
-+  echo "> Creating ${ES_CONFIG_WORKING_DIR} folder."
-+  mkdir -p "${ES_CONFIG_WORKING_DIR}"
++if [ ! -d "$ES_WORKING_DIR" ]; then
++  echo "> Creating ${ES_WORKING_DIR} folder."
++  mkdir -p "${ES_WORKING_DIR}"
 +
 +  echo "> Copying default configs to ${ES_PATH_CONF}."
 +  cp --no-preserve=mode,ownership -R "$(dirname $(realpath "$0"))/../config" "${ES_PATH_CONF}"
 +
 +  echo "> Fixing jvm logs path."
-+  sed -i "s#=logs/#=${ES_CONFIG_PATH_LOGS}/#g" ${ES_CONFIG_WORKING_DIR}/config/jvm.options
++  sed -i "s#=logs/#=${ES_CONFIG_PATH_LOGS}/#g" ${ES_WORKING_DIR}/config/jvm.options
 +
 +  echo "> Creating ${ES_CONFIG_PATH_DATA} folder."
 +  mkdir -p "${ES_CONFIG_PATH_DATA}"

@@ -1,24 +1,24 @@
 diff --git a/bin/kibana b/bin/kibana
-index ef44513..06b1f83 100755
+index ef44513..1f7acd4 100755
 --- a/bin/kibana
 +++ b/bin/kibana
 @@ -1,4 +1,460 @@
 -#!/bin/sh
 +#!/usr/bin/env bash
 +
-+: "${KBN_CONFIG_WORKING_DIR:="$(pwd)/kibana"}"
++: "${KBN_WORKING_DIR:="$(pwd)/kibana"}"
 +
 +if [ "$KBN_PATH_CONF" = "" ]; then
-+    KBN_PATH_CONF="${KBN_CONFIG_WORKING_DIR}/config"
++    KBN_PATH_CONF="${KBN_WORKING_DIR}/config"
 +fi
 +
 +if [ "$KBN_CONFIG_PATH_DATA" = "" ]; then
-+  KBN_CONFIG_PATH_DATA="${KBN_CONFIG_WORKING_DIR}/data"
++  KBN_CONFIG_PATH_DATA="${KBN_WORKING_DIR}/data"
 +fi
 +
-+if [ ! -d "$KBN_CONFIG_WORKING_DIR" ]; then
-+  echo "> Creating $KBN_CONFIG_WORKING_DIR folder."
-+  mkdir -p "$KBN_CONFIG_WORKING_DIR"
++if [ ! -d "$KBN_WORKING_DIR" ]; then
++  echo "> Creating $KBN_WORKING_DIR folder."
++  mkdir -p "$KBN_WORKING_DIR"
 +
 +  echo "> Copying default configs to ${KBN_PATH_CONF}."
 +  cp --no-preserve=mode,ownership -R "$(dirname $(realpath "$0"))/../config" "${KBN_PATH_CONF}"
