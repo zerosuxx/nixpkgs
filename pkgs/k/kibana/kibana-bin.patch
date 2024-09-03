@@ -1,17 +1,30 @@
 diff --git a/bin/kibana b/bin/kibana
-index daec893..4e3581c 100755
+index ef44513..18dfaeb 100755
 --- a/bin/kibana
 +++ b/bin/kibana
-@@ -1,4 +1,444 @@
- #!/bin/sh
+@@ -1,4 +1,460 @@
+-#!/bin/sh
++#!/usr/bin/env bash
 +
-+if [ "$PATH_DATA" = "" ]; then
-+  PATH_DATA="$(pwd)/kibana/data"
++: "${KBN_CONFIG_WORKING_DIR:="$(pwd)/kibana"}"
++
++if [ "$KBN_PATH_CONF" = "" ]; then
++    KBN_PATH_CONF="${KBN_CONFIG_WORKING_DIR}/config"
 +fi
 +
-+if [ ! -d "$PATH_DATA" ]; then
-+  echo "> Creating $PATH_DATA folder."
-+  mkdir -p "$PATH_DATA"
++if [ "$KBN_CONFIG_PATH_DATA" = "" ]; then
++  KBN_CONFIG_PATH_DATA="${KBN_CONFIG_WORKING_DIR}/data"
++fi
++
++if [ ! -d "$KBN_CONFIG_WORKING_DIR" ]; then
++  echo "> Creating $KBN_CONFIG_WORKING_DIR folder."
++  mkdir -p "$KBN_CONFIG_WORKING_DIR"
++
++  echo "> Copying default configs to ${KBN_PATH_CONF}."
++  cp --no-preserve=mode,ownership -R "$(dirname "$0")/../config" "${KBN_PATH_CONF}"
++
++  echo "> Creating ${KBN_CONFIG_PATH_DATA} folder."
++  mkdir -p "${KBN_CONFIG_PATH_DATA}"
 +fi
 +
 +kibana_vars=(
@@ -433,7 +446,7 @@ index daec893..4e3581c 100755
 +longopts=''
 +for kibana_var in ${kibana_vars[*]}; do
 +    # 'elasticsearch.hosts' -> 'ELASTICSEARCH_HOSTS'
-+    env_var=$(echo ${kibana_var^^} | tr . _)
++    env_var="KBN_CONFIG_$(echo ${kibana_var^^} | tr . _)"
 +
 +    # Indirectly lookup env var values via the name of the var.
 +    # REF: http://tldp.org/LDP/abs/html/bashver2.html#EX78
@@ -444,10 +457,14 @@ index daec893..4e3581c 100755
 +    fi
 +done
 +
++if [ "${longopts}" != "" ]; then
++    echo "> Parsed opts:${longopts}"
++fi
++
  SCRIPT=$0
  
  # SCRIPT may be an arbitrarily deep series of symlinks. Loop until we have the concrete path.
-@@ -35,4 +475,4 @@ test_node
+@@ -35,4 +491,4 @@ test_node
  # For now only on POSIX platforms, term signals work differently on Windows.
  NODE_OPTIONS_HEAPSNAPSHOT_DEFAULT="${NODE_OPTIONS_HEAPSNAPSHOT_DEFAULT:---heapsnapshot-signal=SIGUSR2 --diagnostic-dir=$DIR/data}"
  

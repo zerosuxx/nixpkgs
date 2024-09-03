@@ -1,8 +1,8 @@
 diff --git a/bin/elasticsearch b/bin/elasticsearch
-index 4f48aa8..1c385ef 100755
+index 4f48aa8..e6985d7 100755
 --- a/bin/elasticsearch
 +++ b/bin/elasticsearch
-@@ -1,4 +1,50 @@
+@@ -1,4 +1,51 @@
 -#!/bin/bash
 +#!/usr/bin/env bash
 +
@@ -43,6 +43,7 @@ index 4f48aa8..1c385ef 100755
 +  key="${env:10}"
 +  lower_key=${key,,}
 +  config_key=${lower_key//_/.}
++  config_key=${config_key//../_}
 +
 +  opts+=" -E${config_key}=${!env}"
 +done
