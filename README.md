@@ -1,5 +1,10 @@
 # nixpkgs
 
+### packages
+- `adminer`
+- `elasticsearch`
+- `kibana`
+
 ### generate hashes
 ```shell
 version="4.8.4-evo.1"
