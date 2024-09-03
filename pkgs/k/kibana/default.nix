@@ -40,7 +40,7 @@ stdenv.mkDerivation rec {
     chmod +x $out/bin/*
 
     substituteInPlace $out/bin/kibana \
-      --replace-fail 'NODE=' 'NODE="${nodejs_20}" #NODE='
+      --replace-fail 'NODE=' 'NODE="${nodejs_20}/bin/node" #NODE='
   '';
 
   meta = {
