@@ -1,5 +1,5 @@
 diff --git a/bin/kibana b/bin/kibana
-index ef44513..18dfaeb 100755
+index ef44513..06b1f83 100755
 --- a/bin/kibana
 +++ b/bin/kibana
 @@ -1,4 +1,460 @@
@@ -21,7 +21,7 @@ index ef44513..18dfaeb 100755
 +  mkdir -p "$KBN_CONFIG_WORKING_DIR"
 +
 +  echo "> Copying default configs to ${KBN_PATH_CONF}."
-+  cp --no-preserve=mode,ownership -R "$(dirname "$0")/../config" "${KBN_PATH_CONF}"
++  cp --no-preserve=mode,ownership -R "$(dirname $(realpath "$0"))/../config" "${KBN_PATH_CONF}"
 +
 +  echo "> Creating ${KBN_CONFIG_PATH_DATA} folder."
 +  mkdir -p "${KBN_CONFIG_PATH_DATA}"
