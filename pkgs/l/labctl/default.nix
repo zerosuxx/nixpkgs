@@ -10,9 +10,10 @@ let
   platform = elemAt info 1;
 in
 stdenv.mkDerivation rec {
-  repo    = "iximiuz/labctl";
-  pname   = "labctl";
-  version = "0.1.54";
+  repo       = "iximiuz/labctl";
+  pname      = "labctl";
+  version    = "0.1.54";
+  sourceRoot = ".";
 
   src =
     let
