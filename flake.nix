@@ -20,6 +20,7 @@
           kibana = callPackage ./pkgs/k/kibana {
             nodejs_20 = nodejs_20;
           };
+          labctl = callPackage ./pkgs/l/labctl { };
           terraform = callPackage ./pkgs/t/terraform { };
         };
       };
