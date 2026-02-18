@@ -5,7 +5,7 @@
 
 stdenv.mkDerivation rec {
   pname = "terraform";
-  version = "v1.12.2-1";
+  version = "v1.14.5-1";
 
   src =
     let
@@ -13,10 +13,10 @@ stdenv.mkDerivation rec {
       selectSystem = attrs: attrs.${system} or (throw "Unsupported system: ${system}");
 
       sha256 = selectSystem {
-        x86_64-linux = "sha256-n5DqjSP+7jf5xXauxMSJJJie8oIJXt5TWSQSvdgtQfU=";
-        x86_64-darwin = "sha256-eD7g50eGVhTAeUlLxa3Uk2vs5P0UoYehVuMYK+r2gFg=";
-        aarch64-linux = "sha256-Qe3uwma3CvJjUb7QuQyAIIQkIXgLMuEGpyi738+8glQ=";
-        aarch64-darwin = "sha256-/BNiDGrks1ymBsW2pJZkb+G1DYjnuJqbFnXbZbNsKUo=";
+        x86_64-linux = "sha256-ykRTofpelRrBJgIuTUZGgk5dNynqH6Q3X0LEW5ICWzU=";
+        x86_64-darwin = "sha256-RlOO3eiO+Wgtwbgq7y/GSd09gVg1fC8T8hqRL40DVx4=";
+        aarch64-linux = "sha256-AeMa9PB2iH7ZJTidZt3v5yE1caQvDeStzhkbF/8etos=";
+        aarch64-darwin = "sha256-ow9Kz3mLeOWLcUfjbWUbdXVepTWY4504sn9bn0F0S4A=";
       };
     in
     fetchurl {
