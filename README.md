@@ -4,6 +4,7 @@
 - `adminer`
 - `elasticsearch`
 - `kibana`
+- `labctl`
 - `terraform`
 
 ### generate hashes
