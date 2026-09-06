@@ -45,6 +45,8 @@ stdenv.mkDerivation {
     hash = source.hash;
   };
 
+  sourceRoot = ".";
+
   nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [
     autoPatchelfHook
   ];
