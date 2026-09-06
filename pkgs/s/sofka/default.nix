@@ -4,7 +4,6 @@
   fetchurl,
   autoPatchelfHook,
   glibc,
-  xgcc,
 }:
 
 let
@@ -52,7 +51,7 @@ stdenv.mkDerivation {
 
   buildInputs = lib.optionals stdenv.hostPlatform.isLinux [
     glibc
-    xgcc.libgcc
+    stdenv.cc.cc
   ];
 
   installPhase = ''
