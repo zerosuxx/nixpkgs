@@ -13,22 +13,22 @@ let
   sources = {
     x86_64-linux = {
       asset = "${pname}-v${version}-x86_64-unknown-linux-gnu.tar.gz";
-      hash = "hpZ42fCrj7a8af8tynw/6fRTQjNOGL7GDWB5nd6W0pA=";
+      hash = "sha256-hpZ42fCrj7a8af8tynw/6fRTQjNOGL7GDWB5nd6W0pA=";
     };
 
     aarch64-linux = {
       asset = "${pname}-v${version}-aarch64-unknown-linux-gnu.tar.gz";
-      hash = "Pwvn4SR8MZv6FQ39Hkrts4vORGw1Kln/Q3o06XXNydc=";
+      hash = "sha256-Pwvn4SR8MZv6FQ39Hkrts4vORGw1Kln/Q3o06XXNydc=";
     };
 
     x86_64-darwin = {
       asset = "${pname}-v${version}-x86_64-apple-darwin.tar.gz";
-      hash = "lA/X8urvHHYwqdsxeRs2ratqXZKZ6IXDZ6MQBtFwCVM=";
+      hash = "sha256-lA/X8urvHHYwqdsxeRs2ratqXZKZ6IXDZ6MQBtFwCVM=";
     };
 
     aarch64-darwin = {
       asset = "${pname}-v${version}-aarch64-apple-darwin.tar.gz";
-      hash = "+U8dr7ODROvyPO7MlCJNdg4D68zKHjKNWkg/IpSnZ5c=";
+      hash = "sha256-+U8dr7ODROvyPO7MlCJNdg4D68zKHjKNWkg/IpSnZ5c=";
     };
   };
 
