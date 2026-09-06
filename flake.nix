@@ -21,6 +21,7 @@
             nodejs_20 = nodejs_20;
           };
           labctl = callPackage ./pkgs/l/labctl { };
+          sofka = callPackage ./pkgs/s/sofka { };
           terraform = callPackage ./pkgs/t/terraform { };
         };
       };
