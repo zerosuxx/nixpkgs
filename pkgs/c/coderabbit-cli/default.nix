@@ -94,7 +94,6 @@ stdenv.mkDerivation {
   meta = {
     description = "AI code review CLI";
     homepage = "https://www.coderabbit.ai/cli";
-    license = lib.licenses.unfree;
     mainProgram = pname;
     platforms = builtins.attrNames sources;
     sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
