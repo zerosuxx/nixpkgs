@@ -13,6 +13,7 @@
       perSystem = { config, self', inputs', pkgs, system, ... }: rec {
         packages = with pkgs; {
           adminer = callPackage ./pkgs/a/adminer { };
+          coderabbit-cli = callPackage ./pkgs/c/coderabbit-cli { };
           elasticsearch = callPackage ./pkgs/e/elasticsearch {
             util-linux = util-linuxMinimal;
             jdk = jdk17;

@@ -2,6 +2,7 @@
 
 ### packages
 - `adminer`
+- `coderabbit-cli`
 - `elasticsearch`
 - `kibana`
 - `labctl`
