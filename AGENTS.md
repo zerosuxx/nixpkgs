@@ -48,6 +48,18 @@ This is a personal Nix flake exposing a small collection of packages.
   for release assets; always include the `sha256-` prefix.
 - Prefer `fetchurl` + `autoPatchelfHook` for prebuilt Linux binaries, and list
   the required runtime libraries in `buildInputs`.
+- **Exception — single-file executables with an appended payload** (Bun
+  `--compile`, Deno `compile`, PyInstaller, and similar): these locate their
+  embedded payload by absolute byte offset, so `autoPatchelfHook` — and
+  `fixupPhase`'s strip/RPATH-shrink — corrupt them by shifting those offsets.
+  The build still succeeds and the binary still runs, but it silently loses its
+  embedded entrypoint, which makes this easy to miss (see
+  `pkgs/c/coderabbit-cli`, where it left a `coderabbit` that behaved as a bare
+  Bun runtime). For these, set `dontFixup = true`, install the binary
+  unmodified, and wrap it with `makeWrapper ${stdenv.cc.bintools.dynamicLinker}`
+  passing the real binary via `--add-flags` plus any `LD_LIBRARY_PATH` it needs.
+  A quick check after packaging: run the binary's `--version`/`--help` and
+  confirm the output is the tool's own, not the embedded runtime's.
 - Supported systems are `x86_64-linux`, `x86_64-darwin`, `aarch64-linux` and
   `aarch64-darwin`; restrict `meta.platforms` to the systems a package actually
   ships assets for.
