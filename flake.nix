@@ -24,6 +24,7 @@
           labctl = callPackage ./pkgs/l/labctl { };
           sofka = callPackage ./pkgs/s/sofka { };
           termux-am = callPackage ./pkgs/t/termux-am { };
+          termux-api = callPackage ./pkgs/t/termux-api { };
           terraform = callPackage ./pkgs/t/terraform { };
         };
       };

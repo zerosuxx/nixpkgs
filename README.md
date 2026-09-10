@@ -6,6 +6,7 @@
 - `elasticsearch`
 - `kibana`
 - `labctl`
+- `termux-api`
 - `terraform`
 
 ### generate hashes
