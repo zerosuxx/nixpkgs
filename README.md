@@ -6,6 +6,7 @@
 - `elasticsearch`
 - `kibana`
 - `labctl`
+- `termux-am`
 - `termux-api`
 - `terraform`
 
