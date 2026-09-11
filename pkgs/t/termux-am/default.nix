@@ -66,13 +66,50 @@ stdenv.mkDerivation rec {
         --replace-quiet 'am broadcast' "$out/bin/am broadcast"
       chmod 755 $out/bin/$name
     done
+
+    # Without a scheme the intent resolves to nothing, and the am library then
+    # dies inside its own ActivityNotFoundException handler: it formats the
+    # message with intent.getComponent().toShortString(), and a `-d <url>`
+    # intent has no component, so an NPE buries the real cause. Reject a
+    # schemeless argument up front instead.
+    substituteInPlace $out/bin/termux-open-url \
+      --replace-fail 'case "''${TERMUX__USER_ID:-}"' \
+    'case "$1" in
+	*://*) ;;
+	*)
+		echo "termux-open-url: '"'"'$1'"'"' has no scheme, try https://$1" >&2
+		exit 1
+		;;
+esac
+
+case "''${TERMUX__USER_ID:-}"'
+
+    # xdg-open is what most tooling reaches for. URLs go straight to the system
+    # resolver; a path goes through termux-open, which shares the file via the
+    # app's content provider rather than exposing a file:// URI.
+    cat > $out/bin/xdg-open <<XDG_EOF
+#!${bash}/bin/sh
+set -e -u
+
+if [ \$# != 1 ]; then
+	echo "usage: xdg-open <file-or-url>" >&2
+	exit 1
+fi
+
+case "\$1" in
+	*://*) exec $out/bin/termux-open-url "\$1" ;;
+	*)     exec $out/bin/termux-open "\$1" ;;
+esac
+XDG_EOF
+    chmod 755 $out/bin/xdg-open
   '';
 
   doInstallCheck = true;
   installCheckPhase = ''
     runHook preInstallCheck
 
-    for expected in am termux-am termux-am-socket termux-open termux-open-url; do
+    for expected in am termux-am termux-am-socket termux-open termux-open-url \
+      xdg-open; do
       test -e "$out/bin/$expected" \
         || { echo "missing $out/bin/$expected"; exit 1; }
     done
@@ -93,6 +130,23 @@ stdenv.mkDerivation rec {
     # --help needs getopt to work, so this exercises the wiring end to end.
     $out/bin/termux-open --help | grep -q 'Open a file or URL' \
       || { echo "termux-open --help did not run"; exit 1; }
+
+    # A schemeless URL must be refused before it ever reaches `am`.
+    if $out/bin/termux-open-url google.com 2>/dev/null; then
+      echo "termux-open-url accepted a schemeless url"; exit 1
+    fi
+    # Both of these exit non-zero by design, so capture before grepping.
+    schemeless=$($out/bin/termux-open-url google.com 2>&1 || true)
+    case "$schemeless" in
+      *"no scheme"*) ;;
+      *) echo "termux-open-url did not explain the missing scheme: $schemeless"; exit 1 ;;
+    esac
+
+    usage=$($out/bin/xdg-open 2>&1 || true)
+    case "$usage" in
+      *"usage: xdg-open"*) ;;
+      *) echo "xdg-open did not print its usage: $usage"; exit 1 ;;
+    esac
 
     runHook postInstallCheck
   '';
