@@ -55,11 +55,12 @@ stdenv.mkDerivation rec {
     # "com.termux.nix.app.TermuxOpenReceiver": the receiver's Java package
     # stayed com.termux.app, and only the applicationId gained the .nix suffix,
     # so the class to name is com.termux.app.TermuxOpenReceiver.
-    for name in termux-open termux-open-url; do
+    for name in termux-open termux-open-url termux-reload-settings; do
       substitute ${toolsSrc}/scripts/$name.in $out/bin/$name \
         --replace-fail '#!/bin/sh' '#!${bash}/bin/sh' \
         --replace-quiet '@TERMUX_APP_PACKAGE@/@TERMUX_APP_PACKAGE@.app.TermuxOpenReceiver' \
                         '${appPackage}/com.termux.app.TermuxOpenReceiver' \
+        --replace-quiet '@TERMUX_APP_PACKAGE@' '${appPackage}' \
         --replace-quiet 'getopt \' '${util-linux}/bin/getopt \' \
         --replace-quiet 'realpath "$FILE"' '${coreutils}/bin/realpath "$FILE"' \
         --replace-quiet 'am start' "$out/bin/am start" \
@@ -109,7 +110,7 @@ XDG_EOF
     runHook preInstallCheck
 
     for expected in am termux-am termux-am-socket termux-open termux-open-url \
-      xdg-open; do
+      termux-reload-settings xdg-open; do
       test -e "$out/bin/$expected" \
         || { echo "missing $out/bin/$expected"; exit 1; }
     done
@@ -119,10 +120,14 @@ XDG_EOF
       echo "unsubstituted @TERMUX_APP_PACKAGE@ left in the scripts"; exit 1
     fi
 
-    for script in termux-open termux-open-url; do
+    for script in termux-open termux-open-url termux-reload-settings; do
       grep -qE "^[[:space:]]*am[[:space:]]" "$out/bin/$script" \
         && { echo "$script still calls am off PATH"; exit 1; }
     done
+
+    # The reload action carries this app's package name, not upstream's.
+    grep -q '${appPackage}.app.reload_style' $out/bin/termux-reload-settings \
+      || { echo "termux-reload-settings lost its reload action"; exit 1; }
 
     grep -q 'com.termux.app.TermuxOpenReceiver' $out/bin/termux-open \
       || { echo "termux-open lost its receiver component"; exit 1; }
@@ -157,7 +162,8 @@ XDG_EOF
       termux-am-socket, which replaces Android's `am` by talking to the
       Nix-on-Droid app over a unix socket, together with the termux-tools
       scripts that build on it: termux-open and termux-open-url hand a file or
-      URL to an external app.
+      URL to an external app, and termux-reload-settings makes the app pick up
+      an edited ~/.termux/termux.properties.
 
       Sending an intent needs the app's am socket to be live at
       ${socketPath}.
