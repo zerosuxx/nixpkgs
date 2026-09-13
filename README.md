@@ -6,8 +6,8 @@
 - `elasticsearch`
 - `kibana`
 - `labctl`
-- `termux-am`
-- `termux-api`
+- `termux-am` — `am`, `termux-open`, `termux-open-url`, `termux-reload-settings`, `xdg-open`
+- `termux-api` — the Termux:API scripts, plus `pbcopy`, `pbpaste` and `xclip`
 - `terraform`
 
 ### generate hashes
