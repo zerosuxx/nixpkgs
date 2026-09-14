@@ -55,12 +55,17 @@ stdenv.mkDerivation rec {
     # "com.termux.nix.app.TermuxOpenReceiver": the receiver's Java package
     # stayed com.termux.app, and only the applicationId gained the .nix suffix,
     # so the class to name is com.termux.app.TermuxOpenReceiver.
-    for name in termux-open termux-open-url termux-reload-settings; do
+    for name in termux-open termux-open-url termux-reload-settings \
+      termux-setup-storage termux-wake-lock termux-wake-unlock; do
       substitute ${toolsSrc}/scripts/$name.in $out/bin/$name \
-        --replace-fail '#!/bin/sh' '#!${bash}/bin/sh' \
+        --replace-quiet '#!/bin/sh' '#!${bash}/bin/sh' \
+        --replace-quiet '#!/bin/bash' '#!${bash}/bin/bash' \
         --replace-quiet '@TERMUX_APP_PACKAGE@/@TERMUX_APP_PACKAGE@.app.TermuxOpenReceiver' \
                         '${appPackage}/com.termux.app.TermuxOpenReceiver' \
+        --replace-quiet '@TERMUX_APP_PACKAGE@/@TERMUX_APP_PACKAGE@.app.TermuxService' \
+                        '${appPackage}/com.termux.app.TermuxService' \
         --replace-quiet '@TERMUX_APP_PACKAGE@' '${appPackage}' \
+        --replace-quiet '@TERMUX_HOME@' '$HOME' \
         --replace-quiet 'getopt \' '${util-linux}/bin/getopt \' \
         --replace-quiet 'realpath "$FILE"' '${coreutils}/bin/realpath "$FILE"' \
         --replace-quiet 'am start' "$out/bin/am start" \
@@ -110,7 +115,8 @@ XDG_EOF
     runHook preInstallCheck
 
     for expected in am termux-am termux-am-socket termux-open termux-open-url \
-      termux-reload-settings xdg-open; do
+      termux-reload-settings termux-setup-storage termux-wake-lock \
+      termux-wake-unlock xdg-open; do
       test -e "$out/bin/$expected" \
         || { echo "missing $out/bin/$expected"; exit 1; }
     done
@@ -120,7 +126,8 @@ XDG_EOF
       echo "unsubstituted @TERMUX_APP_PACKAGE@ left in the scripts"; exit 1
     fi
 
-    for script in termux-open termux-open-url termux-reload-settings; do
+    for script in termux-open termux-open-url termux-reload-settings \
+      termux-setup-storage termux-wake-lock termux-wake-unlock; do
       grep -qE "^[[:space:]]*am[[:space:]]" "$out/bin/$script" \
         && { echo "$script still calls am off PATH"; exit 1; }
     done
@@ -128,6 +135,29 @@ XDG_EOF
     # The reload action carries this app's package name, not upstream's.
     grep -q '${appPackage}.app.reload_style' $out/bin/termux-reload-settings \
       || { echo "termux-reload-settings lost its reload action"; exit 1; }
+
+    grep -q '${appPackage}.service_wake_lock' $out/bin/termux-wake-lock \
+      || { echo "termux-wake-lock lost its service action"; exit 1; }
+
+    # Same trap as the receiver: only the applicationId gained the .nix
+    # suffix, so the service class stayed com.termux.app.TermuxService.
+    for script in termux-wake-lock termux-wake-unlock; do
+      grep -q '${appPackage}/com.termux.app.TermuxService' "$out/bin/$script" \
+        || { echo "$script names the wrong service class"; exit 1; }
+    done
+
+    if grep -l '@TERMUX_HOME@' $out/bin/termux-setup-storage; then
+      echo "unsubstituted @TERMUX_HOME@ left in termux-setup-storage"; exit 1
+    fi
+
+    # The shebang substitutions are quiet, since a script carries either
+    # /bin/sh or /bin/bash, so check that every one of them landed.
+    for script in $out/bin/*; do
+      interpreter=$(sed -n '1s/^#!//p' "$script" | cut -d' ' -f1)
+      test -n "$interpreter" || continue
+      test -x "$interpreter" \
+        || { echo "$script has a broken shebang: $interpreter"; exit 1; }
+    done
 
     grep -q 'com.termux.app.TermuxOpenReceiver' $out/bin/termux-open \
       || { echo "termux-open lost its receiver component"; exit 1; }
@@ -162,8 +192,14 @@ XDG_EOF
       termux-am-socket, which replaces Android's `am` by talking to the
       Nix-on-Droid app over a unix socket, together with the termux-tools
       scripts that build on it: termux-open and termux-open-url hand a file or
-      URL to an external app, and termux-reload-settings makes the app pick up
-      an edited ~/.termux/termux.properties.
+      URL to an external app, termux-reload-settings makes the app pick up an
+      edited ~/.termux/termux.properties, termux-setup-storage asks for the
+      storage permission and links the phone's media directories under
+      ~/storage, and termux-wake-lock / termux-wake-unlock keep the CPU awake.
+
+      Only the scripts that go through `am` are included. The rest of
+      termux-tools drives Termux's apt-based packaging or writes to $PREFIX,
+      neither of which applies when the distribution is Nix.
 
       Sending an intent needs the app's am socket to be live at
       ${socketPath}.
