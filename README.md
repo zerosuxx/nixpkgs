@@ -6,6 +6,7 @@
 - `elasticsearch`
 - `kibana`
 - `labctl`
+- `ollama`
 - `termux-am` — `am`, `termux-open`, `termux-open-url`, `termux-reload-settings`, `termux-setup-storage`, `termux-wake-lock`, `termux-wake-unlock`, `xdg-open`
 - `termux-api` — the Termux:API scripts, plus `pbcopy`, `pbpaste` and `xclip`
 - `terraform`
