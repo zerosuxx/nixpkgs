@@ -3,6 +3,7 @@
 ### packages
 - `adminer`
 - `antigravity-cli` — `agy`
+- `bws`
 - `coderabbit-cli`
 - `elasticsearch`
 - `kibana`

@@ -14,6 +14,7 @@
         packages = with pkgs; {
           adminer = callPackage ./pkgs/a/adminer { };
           antigravity-cli = callPackage ./pkgs/a/antigravity-cli { };
+          bws = callPackage ./pkgs/b/bws { };
           coderabbit-cli = callPackage ./pkgs/c/coderabbit-cli { };
           elasticsearch = callPackage ./pkgs/e/elasticsearch {
             util-linux = util-linuxMinimal;
