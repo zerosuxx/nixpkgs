@@ -68,7 +68,6 @@ stdenv.mkDerivation {
     description = "Google's terminal user interface (TUI) agent client";
     homepage = "https://antigravity.google";
     changelog = "https://antigravity.google/changelog";
-    license = lib.licenses.unfree;
     mainProgram = "agy";
     platforms = builtins.attrNames sources;
     sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
