@@ -5,6 +5,7 @@
 - `antigravity-cli` — `agy`
 - `bws`
 - `coderabbit-cli`
+- `codex`
 - `elasticsearch`
 - `kibana`
 - `labctl`

@@ -16,6 +16,7 @@
           antigravity-cli = callPackage ./pkgs/a/antigravity-cli { };
           bws = callPackage ./pkgs/b/bws { };
           coderabbit-cli = callPackage ./pkgs/c/coderabbit-cli { };
+          codex = callPackage ./pkgs/c/codex { };
           elasticsearch = callPackage ./pkgs/e/elasticsearch {
             util-linux = util-linuxMinimal;
             jdk = jdk17;
