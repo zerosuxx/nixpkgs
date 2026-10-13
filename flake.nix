@@ -24,6 +24,7 @@
           kibana = callPackage ./pkgs/k/kibana {
             nodejs_20 = nodejs_20;
           };
+          kubelogin = callPackage ./pkgs/k/kubelogin { };
           labctl = callPackage ./pkgs/l/labctl { };
           ollama = callPackage ./pkgs/o/ollama { };
           sofka = callPackage ./pkgs/s/sofka { };

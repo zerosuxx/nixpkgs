@@ -8,6 +8,7 @@
 - `codex`
 - `elasticsearch`
 - `kibana`
+- `kubelogin`
 - `labctl`
 - `ollama`
 - `termux-am` — `am`, `termux-open`, `termux-open-url`, `termux-reload-settings`, `termux-setup-storage`, `termux-wake-lock`, `termux-wake-unlock`, `xdg-open`
