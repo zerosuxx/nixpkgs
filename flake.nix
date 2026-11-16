@@ -28,6 +28,7 @@
           labctl = callPackage ./pkgs/l/labctl { };
           ollama = callPackage ./pkgs/o/ollama { };
           railway = callPackage ./pkgs/r/railway { };
+          render-cli = callPackage ./pkgs/r/render-cli { };
           sofka = callPackage ./pkgs/s/sofka { };
           termux-am = callPackage ./pkgs/t/termux-am { };
           termux-api = callPackage ./pkgs/t/termux-api { };
