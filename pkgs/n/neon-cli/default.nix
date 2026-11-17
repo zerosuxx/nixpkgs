@@ -21,7 +21,7 @@ buildNpmPackage {
   '';
 
   nodejs = nodejs_22;
-  npmDepsHash = "sha256-UMNC/y5XETqLk9C/ty7oFtLK0/ZUzV8mcGtzD9Ec0y8=";
+  npmDepsHash = "sha256-pXYiCClun/bt+uid3vgMg2cLsJatRRG/80+vOHv/ACk=";
   npmInstallFlags = [ "--omit=dev" ];
   npmPruneFlags = [ "--omit=dev" ];
   dontNpmBuild = true;
