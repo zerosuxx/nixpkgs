@@ -1,7 +1,7 @@
 { lib
 , stdenv
 , fetchurl
-, nodejs_20
+, patchelf
 }:
 
 with lib;
@@ -33,14 +33,21 @@ stdenv.mkDerivation rec {
 
   patches = [ ./kibana-bin.patch ];
 
+  nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [ patchelf ];
+  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ stdenv.cc.cc.lib ];
+  dontFixup = true;
+
   installPhase = ''
     mkdir -p $out
-    cp -R bin config node_modules src x-pack *.json $out
+    cp -R bin config node node_modules src x-pack *.json $out
 
     chmod +x $out/bin/*
+  '';
 
-    substituteInPlace $out/bin/kibana \
-      --replace-fail 'NODE=' 'NODE="${nodejs_20}/bin/node" #NODE='
+  postInstall = lib.optionalString stdenv.hostPlatform.isLinux ''
+    patchelf --set-interpreter ${stdenv.cc.bintools.dynamicLinker} \
+      --set-rpath ${lib.makeLibraryPath [ stdenv.cc.cc.lib stdenv.cc.libc ]} \
+      $out/node/glibc-217/bin/node
   '';
 
   meta = {

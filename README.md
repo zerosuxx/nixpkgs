@@ -4,6 +4,7 @@
 - `adminer`
 - `antigravity-cli` — `agy`
 - `bws`
+- `cloudflare-cli` — `cf`, `cloudflare`
 - `coderabbit-cli`
 - `codex`
 - `elasticsearch`

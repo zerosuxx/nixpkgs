@@ -2,7 +2,7 @@
   description = "A collection of packages for the Nix package manager";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
@@ -15,24 +15,26 @@
           adminer = callPackage ./pkgs/a/adminer { };
           antigravity-cli = callPackage ./pkgs/a/antigravity-cli { };
           bws = callPackage ./pkgs/b/bws { };
+          cloudflare-cli = callPackage ./pkgs/c/cloudflare-cli {
+            nodejs_22 = nodejs_22;
+          };
           coderabbit-cli = callPackage ./pkgs/c/coderabbit-cli { };
           codex = callPackage ./pkgs/c/codex { };
           elasticsearch = callPackage ./pkgs/e/elasticsearch {
             util-linux = util-linuxMinimal;
             jdk = jdk17;
           };
-          kibana = callPackage ./pkgs/k/kibana {
-            nodejs_20 = nodejs_20;
-          };
+          kibana = callPackage ./pkgs/k/kibana { };
           kubelogin = callPackage ./pkgs/k/kubelogin { };
           labctl = callPackage ./pkgs/l/labctl { };
           ollama = callPackage ./pkgs/o/ollama { };
           railway = callPackage ./pkgs/r/railway { };
           render-cli = callPackage ./pkgs/r/render-cli { };
           sofka = callPackage ./pkgs/s/sofka { };
-          termux-am = callPackage ./pkgs/t/termux-am { };
-          termux-api = callPackage ./pkgs/t/termux-api { };
           terraform = callPackage ./pkgs/t/terraform { };
+        } // pkgs.lib.optionalAttrs (system == "aarch64-linux") {
+          termux-am = pkgs.callPackage ./pkgs/t/termux-am { };
+          termux-api = pkgs.callPackage ./pkgs/t/termux-api { };
         };
       };
     };

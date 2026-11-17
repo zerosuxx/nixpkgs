@@ -1,0 +1,39 @@
+{
+  "name": "cf",
+  "version": "1.0.0-rc.0",
+  "description": "The Cloudflare CLI",
+  "license": "MIT OR Apache-2.0",
+  "homepage": "https://github.com/cloudflare/cf#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cloudflare/cf.git",
+    "directory": "packages/cli"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "LICENSE-APACHE",
+    "LICENSE-MIT"
+  ],
+  "bin": {
+    "cf": "./bin/cf",
+    "cloudflare": "./bin/cf"
+  },
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./config": {
+      "types": "./dist/config.d.mts",
+      "import": "./dist/config.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@cloudflare/build-output-utils": "1.0.0-rc.0",
+    "@cloudflare/config": "1.0.0-rc.0",
+    "@cloudflare/runtime-types": "0.1.29",
+    "blake3-wasm": "2.1.5",
+    "miniflare": "5.20261116.0-beta"
+  }
+}
