@@ -6,7 +6,7 @@
 
 buildNpmPackage {
   pname = "neon-cli";
-  version = "9.6.0";
+  version = "9.6.0-1";
 
   src = fetchurl {
     url = "https://registry.npmjs.org/neon/-/neon-9.6.0.tgz";
