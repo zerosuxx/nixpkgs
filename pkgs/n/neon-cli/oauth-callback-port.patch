@@ -1,0 +1,6 @@
+diff --git a/dist/auth.js b/dist/auth.js
+--- a/dist/auth.js
++++ b/dist/auth.js
+@@ -162 +162 @@
+-	server.listen(0, "127.0.0.1", function() {
++	server.listen(Number(process.env.NEON_OAUTH_CALLBACK_PORT ?? 0), "127.0.0.1", function() {

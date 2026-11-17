@@ -17,6 +17,7 @@ buildNpmPackage {
   postPatch = ''
     cp ${./package.json} package.json
     cp ${./package-lock.json} package-lock.json
+    patch -p1 < ${./oauth-callback-port.patch}
   '';
 
   nodejs = nodejs_22;
