@@ -11,6 +11,7 @@
 - `kibana`
 - `kubelogin`
 - `labctl`
+- `neon-cli` — `neon`
 - `ollama`
 - `railway`
 - `render-cli` — `render`

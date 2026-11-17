@@ -27,6 +27,9 @@
           kibana = callPackage ./pkgs/k/kibana { };
           kubelogin = callPackage ./pkgs/k/kubelogin { };
           labctl = callPackage ./pkgs/l/labctl { };
+          neon-cli = callPackage ./pkgs/n/neon-cli {
+            nodejs_22 = nodejs_22;
+          };
           ollama = callPackage ./pkgs/o/ollama { };
           railway = callPackage ./pkgs/r/railway { };
           render-cli = callPackage ./pkgs/r/render-cli { };
